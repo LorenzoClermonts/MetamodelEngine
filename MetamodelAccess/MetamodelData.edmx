@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MetamodelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblAttribute">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Datatype" Type="varchar" MaxLength="20" />
+          <Property Name="ObjectTypeID" Type="int" />
+        </EntityType>
+        <EntityType Name="tblFactType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" />
+          <Property Name="Description" Type="varchar" MaxLength="300" />
+          <Property Name="Conc_ID" Type="varchar" MaxLength="15" />
+          <Property Name="Cnst_ID" Type="varchar" MaxLength="15" />
+          <Property Name="PredicatorSetType" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblModel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
+          <Property Name="Version" Type="int" />
+        </EntityType>
+        <EntityType Name="tblObjectType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="Conc_ID" Type="varchar" MaxLength="15" />
+          <Property Name="Cnst_ID" Type="varchar" MaxLength="15" />
+          <Property Name="ModelID" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="tblPredicator">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="FactTypeID" Type="int" />
+          <Property Name="ObjectTypeID" Type="int" />
+          <Property Name="Multiplicity" Type="varchar" MaxLength="30" />
+          <Property Name="Verb" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <Association Name="FK_tblAttribute_tblObjectType">
+          <End Role="tblObjectType" Type="Self.tblObjectType" Multiplicity="0..1" />
+          <End Role="tblAttribute" Type="Self.tblAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblObjectType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblAttribute">
+              <PropertyRef Name="ObjectTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPredicator_tblFactType">
+          <End Role="tblFactType" Type="Self.tblFactType" Multiplicity="0..1" />
+          <End Role="tblPredicator" Type="Self.tblPredicator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblFactType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblPredicator">
+              <PropertyRef Name="FactTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPredicator_tblObjectType">
+          <End Role="tblObjectType" Type="Self.tblObjectType" Multiplicity="0..1" />
+          <End Role="tblPredicator" Type="Self.tblPredicator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblObjectType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblPredicator">
+              <PropertyRef Name="ObjectTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MetamodelModelStoreContainer">
+          <EntitySet Name="tblAttribute" EntityType="Self.tblAttribute" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblFactType" EntityType="Self.tblFactType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblModel" EntityType="Self.tblModel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblObjectType" EntityType="Self.tblObjectType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPredicator" EntityType="Self.tblPredicator" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tblAttribute_tblObjectType" Association="Self.FK_tblAttribute_tblObjectType">
+            <End Role="tblObjectType" EntitySet="tblObjectType" />
+            <End Role="tblAttribute" EntitySet="tblAttribute" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPredicator_tblFactType" Association="Self.FK_tblPredicator_tblFactType">
+            <End Role="tblFactType" EntitySet="tblFactType" />
+            <End Role="tblPredicator" EntitySet="tblPredicator" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPredicator_tblObjectType" Association="Self.FK_tblPredicator_tblObjectType">
+            <End Role="tblObjectType" EntitySet="tblObjectType" />
+            <End Role="tblPredicator" EntitySet="tblPredicator" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MetamodelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblAttribute">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Datatype" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ObjectTypeID" Type="Int32" />
+          <NavigationProperty Name="tblObjectType" Relationship="Self.FK_tblAttribute_tblObjectType" FromRole="tblAttribute" ToRole="tblObjectType" />
+        </EntityType>
+        <EntityType Name="tblFactType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Conc_ID" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Cnst_ID" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="PredicatorSetType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblPredicator" Relationship="Self.FK_tblPredicator_tblFactType" FromRole="tblFactType" ToRole="tblPredicator" />
+        </EntityType>
+        <EntityType Name="tblModel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Version" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tblObjectType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Conc_ID" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Cnst_ID" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ModelID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="tblAttribute" Relationship="Self.FK_tblAttribute_tblObjectType" FromRole="tblObjectType" ToRole="tblAttribute" />
+          <NavigationProperty Name="tblPredicator" Relationship="Self.FK_tblPredicator_tblObjectType" FromRole="tblObjectType" ToRole="tblPredicator" />
+        </EntityType>
+        <EntityType Name="tblPredicator">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FactTypeID" Type="Int32" />
+          <Property Name="ObjectTypeID" Type="Int32" />
+          <Property Name="Multiplicity" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Verb" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblFactType" Relationship="Self.FK_tblPredicator_tblFactType" FromRole="tblPredicator" ToRole="tblFactType" />
+          <NavigationProperty Name="tblObjectType" Relationship="Self.FK_tblPredicator_tblObjectType" FromRole="tblPredicator" ToRole="tblObjectType" />
+        </EntityType>
+        <Association Name="FK_tblAttribute_tblObjectType">
+          <End Role="tblObjectType" Type="Self.tblObjectType" Multiplicity="0..1" />
+          <End Role="tblAttribute" Type="Self.tblAttribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblObjectType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblAttribute">
+              <PropertyRef Name="ObjectTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPredicator_tblFactType">
+          <End Role="tblFactType" Type="Self.tblFactType" Multiplicity="0..1" />
+          <End Role="tblPredicator" Type="Self.tblPredicator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblFactType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblPredicator">
+              <PropertyRef Name="FactTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblPredicator_tblObjectType">
+          <End Role="tblObjectType" Type="Self.tblObjectType" Multiplicity="0..1" />
+          <End Role="tblPredicator" Type="Self.tblPredicator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblObjectType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblPredicator">
+              <PropertyRef Name="ObjectTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MetamodelEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblAttribute" EntityType="Self.tblAttribute" />
+          <EntitySet Name="tblFactType" EntityType="Self.tblFactType" />
+          <EntitySet Name="tblModel" EntityType="Self.tblModel" />
+          <EntitySet Name="tblObjectType" EntityType="Self.tblObjectType" />
+          <EntitySet Name="tblPredicator" EntityType="Self.tblPredicator" />
+          <AssociationSet Name="FK_tblAttribute_tblObjectType" Association="Self.FK_tblAttribute_tblObjectType">
+            <End Role="tblObjectType" EntitySet="tblObjectType" />
+            <End Role="tblAttribute" EntitySet="tblAttribute" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPredicator_tblFactType" Association="Self.FK_tblPredicator_tblFactType">
+            <End Role="tblFactType" EntitySet="tblFactType" />
+            <End Role="tblPredicator" EntitySet="tblPredicator" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblPredicator_tblObjectType" Association="Self.FK_tblPredicator_tblObjectType">
+            <End Role="tblObjectType" EntitySet="tblObjectType" />
+            <End Role="tblPredicator" EntitySet="tblPredicator" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MetamodelModelStoreContainer" CdmEntityContainer="MetamodelEntities">
+          <EntitySetMapping Name="tblAttribute">
+            <EntityTypeMapping TypeName="MetamodelModel.tblAttribute">
+              <MappingFragment StoreEntitySet="tblAttribute">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Datatype" ColumnName="Datatype" />
+                <ScalarProperty Name="ObjectTypeID" ColumnName="ObjectTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFactType">
+            <EntityTypeMapping TypeName="MetamodelModel.tblFactType">
+              <MappingFragment StoreEntitySet="tblFactType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Conc_ID" ColumnName="Conc_ID" />
+                <ScalarProperty Name="Cnst_ID" ColumnName="Cnst_ID" />
+                <ScalarProperty Name="PredicatorSetType" ColumnName="PredicatorSetType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblModel">
+            <EntityTypeMapping TypeName="MetamodelModel.tblModel">
+              <MappingFragment StoreEntitySet="tblModel">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblObjectType">
+            <EntityTypeMapping TypeName="MetamodelModel.tblObjectType">
+              <MappingFragment StoreEntitySet="tblObjectType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Conc_ID" ColumnName="Conc_ID" />
+                <ScalarProperty Name="Cnst_ID" ColumnName="Cnst_ID" />
+                <ScalarProperty Name="ModelID" ColumnName="ModelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPredicator">
+            <EntityTypeMapping TypeName="MetamodelModel.tblPredicator">
+              <MappingFragment StoreEntitySet="tblPredicator">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FactTypeID" ColumnName="FactTypeID" />
+                <ScalarProperty Name="ObjectTypeID" ColumnName="ObjectTypeID" />
+                <ScalarProperty Name="Multiplicity" ColumnName="Multiplicity" />
+                <ScalarProperty Name="Verb" ColumnName="Verb" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
