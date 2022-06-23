@@ -11,6 +11,6 @@ namespace MetamodelEngine
 
         public string Datatype { get; set; }
 
-        public int ObjectTypeId { get; set; }
+        public string Classname { get; set; }
     }
 }

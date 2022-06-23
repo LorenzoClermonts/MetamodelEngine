@@ -16,5 +16,39 @@ namespace MetamodelEngine.Controllers
                 return entities.tblModel.ToList();
             }
         }
+
+        /*[Route("~/api/AddModel")]
+        [HttpPost]
+        public tblModel AddModel([FromBody] tblModel model)
+        {
+            using(MetamodelEntities entities = new MetamodelEntities())
+            {
+                entities.tblModel.Add(model);
+                entities.SaveChanges();
+            }
+            
+            return model;
+        }
+        */
+
+        [Route("~/api/AddModel")]
+        [HttpPost]
+        public Metamodel AddModel([FromBody] Metamodel metamodel)
+        {
+            using (MetamodelEntities entities = new MetamodelEntities())
+            {
+                entities.tblModel.Add(metamodel.model);
+                entities.SaveChanges();
+
+                foreach (var element in metamodel.classes)
+                {
+                    element.ModelID = metamodel.model.ID.ToString();
+                    entities.tblObjectType.Add(element);
+                }
+                entities.SaveChanges();
+            }
+
+            return metamodel;
+        }
     }
 }
