@@ -18,7 +18,7 @@ namespace MetamodelAccess
         public string Name { get; set; }
         public string Datatype { get; set; }
         public Nullable<int> ObjectTypeID { get; set; }
-    
+
         public virtual tblObjectType tblObjectType { get; set; }
     }
 }

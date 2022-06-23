@@ -20,7 +20,7 @@ namespace MetamodelAccess
             this.tblAttribute = new HashSet<tblAttribute>();
             this.tblPredicator = new HashSet<tblPredicator>();
         }
-    
+
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

@@ -33,7 +33,7 @@ namespace MetamodelEngine.Controllers
 
         [Route("~/api/AddModel")]
         [HttpPost]
-        public Metamodel AddModel([FromBody] Metamodel metamodel)
+        public void AddModel([FromBody] Metamodel metamodel)
         {
             using (MetamodelEntities entities = new MetamodelEntities())
             {
@@ -44,11 +44,10 @@ namespace MetamodelEngine.Controllers
                 {
                     element.ModelID = metamodel.model.ID.ToString();
                     entities.tblObjectType.Add(element);
-                }
-                entities.SaveChanges();
-            }
 
-            return metamodel;
+                    entities.SaveChanges();
+                }
+            }
         }
     }
 }
