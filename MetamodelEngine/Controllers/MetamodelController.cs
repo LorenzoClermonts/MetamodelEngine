@@ -15,21 +15,7 @@ namespace MetamodelEngine.Controllers
             {
                 return entities.tblModel.ToList();
             }
-        }
-
-        /*[Route("~/api/AddModel")]
-        [HttpPost]
-        public tblModel AddModel([FromBody] tblModel model)
-        {
-            using(MetamodelEntities entities = new MetamodelEntities())
-            {
-                entities.tblModel.Add(model);
-                entities.SaveChanges();
-            }
-            
-            return model;
-        }
-        */
+        }       
 
         [Route("~/api/AddModel")]
         [HttpPost]
@@ -50,12 +36,15 @@ namespace MetamodelEngine.Controllers
                 foreach (var relation in metamodel.relations)
                 {
                     entities.tblFactType.Add(relation);
-                    
-                    foreach(var predicator in relation.tblPredicator)
-                    {
-                        entities.tblObjectType.Find(tblObjectType => tblObjectType)
-                    }
+                    entities.SaveChanges();
 
+                    foreach (var predicator in relation.tblPredicator)
+                    {
+                        var model = entities.tblObjectType.Where(tblObjectType => tblObjectType.ModelID == metamodel.model.ID.ToString() && tblObjectType.Name == predicator.Name).FirstOrDefault();
+
+                        model.tblPredicator.Add(predicator);
+                        
+                    }
 
                     entities.SaveChanges();
                 }
