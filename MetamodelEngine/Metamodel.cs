@@ -9,7 +9,5 @@ namespace MetamodelEngine
         public List<tblObjectType> classes { get; set; }
 
         public List<tblFactType> relations { get; set; }
-
-        public List<tblPredicator> predicators { get; set; }
     }
 }

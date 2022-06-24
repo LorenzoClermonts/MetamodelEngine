@@ -44,6 +44,18 @@ namespace MetamodelEngine.Controllers
                 {
                     element.ModelID = metamodel.model.ID.ToString();
                     entities.tblObjectType.Add(element);
+                    entities.SaveChanges();
+                }  
+                
+                foreach (var relation in metamodel.relations)
+                {
+                    entities.tblFactType.Add(relation);
+                    
+                    foreach(var predicator in relation.tblPredicator)
+                    {
+                        entities.tblObjectType.Find(tblObjectType => tblObjectType)
+                    }
+
 
                     entities.SaveChanges();
                 }
